@@ -1,6 +1,6 @@
 CC = gcc
 # CFLAGS = -Wall -Wextra -O3 -Iinclude -MMD -MP
-CFLAGS = -Wall -Wextra -O3 -Iinclude
+CFLAGS = -Wall -Wextra -g -O3 -Iinclude
 
 # dirs
 BINDIR = bin
