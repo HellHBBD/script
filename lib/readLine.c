@@ -8,7 +8,7 @@ char *readLine()
 	char *result = malloc(sizeof(char) * 1);
 	result[0] = '\0';
 	char c;
-	while ((c = getchar()) != '\n') {
+	while ((c = getchar()) != '\n' && c != EOF) {
 		int length = strlen(result);
 		result = realloc(result, sizeof(char) * (length + 1));
 		result[length] = c;
