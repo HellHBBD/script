@@ -18,7 +18,7 @@ all: $(foreach T, $(TARGETS), $(BINDIR)/$(T))
 $(BINDIR)/show-wifi-key: $(OBJDIR)/show-wifi-key.o $(OBJDIR)/readLine.o
 	$(CC) $(CFLAGS) -o $@ $^
 
-$(BINDIR)/submit: $(OBJDIR)/submit.o
+$(BINDIR)/submit: $(OBJDIR)/submit.o $(OBJDIR)/readLine.o
 	$(CC) $(CFLAGS) -o $@ $^
 
 # compiling source
