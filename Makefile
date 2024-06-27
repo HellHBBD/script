@@ -8,8 +8,9 @@ OBJDIR = obj
 LIBDIR = lib
 SRCDIR = src
 INCDIR = include
+TESTDIR = test
 
-TARGETS = show-wifi-key submit
+TARGETS = show-wifi-key submit score-histogram
 
 # default target
 all: $(foreach T, $(TARGETS), $(BINDIR)/$(T))
@@ -19,6 +20,9 @@ $(BINDIR)/show-wifi-key: $(OBJDIR)/show-wifi-key.o $(OBJDIR)/readLine.o
 	$(CC) $(CFLAGS) -o $@ $^
 
 $(BINDIR)/submit: $(OBJDIR)/submit.o $(OBJDIR)/readLine.o
+	$(CC) $(CFLAGS) -o $@ $^
+
+$(BINDIR)/score-histogram: $(OBJDIR)/score-histogram.o $(OBJDIR)/readLine.o
 	$(CC) $(CFLAGS) -o $@ $^
 
 # compiling source
@@ -36,4 +40,14 @@ clean:
 # remake
 remake: clean all
 
-.PHONY: all clean remake
+# unit test
+test: $(BINDIR)/test
+	@bin/test
+
+$(BINDIR)/test: $(OBJDIR)/main.o $(OBJDIR)/sort.o $(OBJDIR)/sort_test.o
+	$(CC) $(CFLAGS) -o $@ $^
+
+$(OBJDIR)/%.o: $(TESTDIR)/%.c
+	$(CC) $(CFLAGS) -o $@ -c $<
+
+.PHONY: all clean remake test
