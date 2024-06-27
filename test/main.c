@@ -1,8 +1,11 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 #include <sort_test.h>
 
 int main() {
-	test_swap();
-	test_quickSort();
+	srand(time(NULL));
+	/* test_swap(); */
+	test_mergeSort();
 	return 0;
 }

@@ -19,8 +19,39 @@ void test_swap() {
 	printf("%p %p\n", e, f);
 }
 
+int increase(const void *a, const void *b) {
+	return *(int *)a - *(int *)b;
+}
+
+/* int decrease(const void *a, const void *b) { */
+	/* return *(int *)b - *(int *)a; */
+/* } */
+
 #define SIZE 10
-void test_quickSort() {
+/* void test_quickSort() { */
+/* 	int array[SIZE]; */
+/* 	for (int i = 0;i < SIZE;i++) { */
+/* 		array[i] = rand() % (2 * SIZE); */
+/* 		printf("%d ", array[i]); */
+/* 	} */
+/* 	puts(""); */
+/*  */
+/* 	quickSort(array, SIZE, sizeof(int), increase); */
+/*  */
+/* 	for (int i = 0;i < SIZE;i++) { */
+/* 		printf("%d ", array[i]); */
+/* 	} */
+/* 	puts(""); */
+/*  */
+/* 	quickSort(array, SIZE, sizeof(int), decrease); */
+/*  */
+/* 	for (int i = 0;i < SIZE;i++) { */
+/* 		printf("%d ", array[i]); */
+/* 	} */
+/* 	puts(""); */
+/* } */
+
+void test_mergeSort() {
 	int array[SIZE];
 	for (int i = 0;i < SIZE;i++) {
 		array[i] = rand() % (2 * SIZE);
@@ -28,10 +59,17 @@ void test_quickSort() {
 	}
 	puts("");
 
-	quickSort(array, SIZE);
+	mergeSort(array, SIZE, increase);
 
 	for (int i = 0;i < SIZE;i++) {
 		printf("%d ", array[i]);
 	}
 	puts("");
+
+	/* mergeSort(array, SIZE); */
+    /*  */
+	/* for (int i = 0;i < SIZE;i++) { */
+	/* 	printf("%d ", array[i]); */
+	/* } */
+	/* puts(""); */
 }
