@@ -1,6 +1,7 @@
 CC = gcc
 # CFLAGS = -Wall -Wextra -O3 -Iinclude -MMD -MP
-CFLAGS = -Wall -Wextra -g -O3 -Iinclude
+OPT = -O2
+CFLAGS = -Wall -Wextra -g -Iinclude $(OPT)
 
 # dirs
 BINDIR = bin
@@ -10,7 +11,7 @@ SRCDIR = src
 INCDIR = include
 TESTDIR = test
 
-TARGETS = show-wifi-key submit score-histogram
+TARGETS = show-wifi-key submit score-histogram nameList
 
 # default target
 all: $(foreach T, $(TARGETS), $(BINDIR)/$(T))
@@ -23,6 +24,9 @@ $(BINDIR)/submit: $(OBJDIR)/submit.o $(OBJDIR)/readLine.o
 	$(CC) $(CFLAGS) -o $@ $^
 
 $(BINDIR)/score-histogram: $(OBJDIR)/score-histogram.o $(OBJDIR)/readLine.o
+	$(CC) $(CFLAGS) -o $@ $^
+
+$(BINDIR)/nameList: $(OBJDIR)/nameList.o $(OBJDIR)/readLine.o $(OBJDIR)/store.o
 	$(CC) $(CFLAGS) -o $@ $^
 
 # compiling source
