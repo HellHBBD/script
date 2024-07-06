@@ -80,7 +80,7 @@ void read()
 	if (file == NULL) {
 		return;
 	}
-	unsigned count;
+	unsigned count = 0;
 	fread(&count, sizeof(count), 1, file);
 	list->count = count;
 	struct Name *tail = NULL;
@@ -106,7 +106,6 @@ void write()
 {
 	FILE *file = fopen(filename, "wb");
 	if (file == NULL) {
-		perror("Error");
 		return;
 	}
 	unsigned count = list->count;
@@ -135,7 +134,6 @@ int main()
 	list = malloc(sizeof(struct List));
 	list->head = NULL;
 	list->count = 0;
-	unsigned option;
 
 	// read data
 	read();
@@ -144,9 +142,10 @@ int main()
 		// print data
 		print();
 		printf("\n\n[0] = exit\n[1] = add name\n[2] = delete name\n\n(0/1/2): ");
+		unsigned option = 0;
 		scanf("%d", &option);
 		CLEAN_BUFFER();
-		char *line;
+		char *line = NULL;
 		switch (option) {
 		case 0:
 			// write data
