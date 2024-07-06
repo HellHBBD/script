@@ -10,7 +10,7 @@ struct Name {
 };
 
 struct List {
-	size_t count;
+	unsigned count;
 	struct Name *head;
 };
 
@@ -27,7 +27,8 @@ void add(char *name)
 	list->count++;
 }
 
-void pop() {
+void pop()
+{
 	struct Name *prev = list->head;
 	struct Name *curr = prev->next;
 	list->head = curr;
@@ -38,7 +39,7 @@ void pop() {
 	list->count--;
 }
 
-void delete(size_t index)
+void delete(unsigned index)
 {
 	if (index >= list->count) {
 		puts("out of index");
@@ -66,9 +67,9 @@ void print()
 		puts("empty name list");
 		return;
 	}
-	size_t index = 0;
+	unsigned index = 0;
 	for (struct Name *head = list->head; head; head = head->next) {
-		printf("[%ld] %s\n", index, head->name);
+		printf("[%d] %s\n", index, head->name);
 		index++;
 	}
 }
@@ -79,13 +80,24 @@ void read()
 	if (file == NULL) {
 		return;
 	}
-	size_t count;
+	unsigned count;
 	fread(&count, sizeof(count), 1, file);
-	while (count--) {
-		char *temp = NULL;
-		fread_string(&temp, file);
-		add(temp);
-		free(temp);
+	list->count = count;
+	struct Name *tail = NULL;
+	if (count) {
+		list->head = malloc(sizeof(struct Name));
+		tail = list->head;
+		fread_string(&tail->name, file);
+		count--;
+	}
+	while (count) {
+		tail->next = malloc(sizeof(struct Name));
+		tail = tail->next;
+		fread_string(&tail->name, file);
+		count--;
+		if (count == 0) {
+			tail->next = NULL;
+		}
 	}
 	fclose(file);
 }
@@ -97,7 +109,7 @@ void write()
 		perror("Error");
 		return;
 	}
-	size_t count = list->count;
+	unsigned count = list->count;
 	fwrite(&count, sizeof(count), 1, file);
 	struct Name *prev = list->head;
 	for (struct Name *curr = prev; prev; prev = curr) {
@@ -123,7 +135,7 @@ int main()
 	list = malloc(sizeof(struct List));
 	list->head = NULL;
 	list->count = 0;
-	size_t option;
+	unsigned option;
 
 	// read data
 	read();
@@ -132,7 +144,7 @@ int main()
 		// print data
 		print();
 		printf("\n\n[0] = exit\n[1] = add name\n[2] = delete name\n\n(0/1/2): ");
-		scanf("%ld", &option);
+		scanf("%d", &option);
 		CLEAN_BUFFER();
 		char *line;
 		switch (option) {
@@ -151,7 +163,7 @@ int main()
 			break;
 		case 2:
 			// delete
-			scanf("%ld", &option);
+			scanf("%d", &option);
 			CLEAN_BUFFER();
 			delete (option);
 			break;
