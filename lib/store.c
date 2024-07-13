@@ -4,8 +4,7 @@
 #include <string.h>
 
 void fread_string(char **string, FILE *file) {
-	unsigned length;
-	fread(&length, sizeof(length), 1, file);
+	unsigned length = getw(file);
 	*string = malloc(sizeof(char) * length);
 	fread(*string, sizeof(char), length, file);
 }
@@ -15,6 +14,6 @@ void fwrite_string(char *string, FILE *file) {
 		return;
 	}
 	unsigned length = strlen(string) + 1;
-	fwrite(&length, sizeof(length), 1, file);
+	putw(length, file);
 	fwrite(string, sizeof(char), length, file);
 }

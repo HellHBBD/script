@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
 #include <readLine.h>
 #include <store.h>
 
@@ -15,8 +16,7 @@ struct List {
 };
 
 struct List *list = NULL;
-/* char *filename = "/home/hellhbbd/scripts/data/nameList/data.bin"; */
-char *filename = "data.bin";
+char *filename = "/home/hellhbbd/.local/data/nameList/data.bin";
 
 void add(char *name)
 {
@@ -80,8 +80,7 @@ void read()
 	if (file == NULL) {
 		return;
 	}
-	unsigned count = 0;
-	fread(&count, sizeof(count), 1, file);
+	unsigned count = getw(file);
 	list->count = count;
 	struct Name *tail = NULL;
 	if (count) {
@@ -108,8 +107,7 @@ void write()
 	if (file == NULL) {
 		return;
 	}
-	unsigned count = list->count;
-	fwrite(&count, sizeof(count), 1, file);
+	putw(list->count, file);
 	struct Name *prev = list->head;
 	for (struct Name *curr = prev; prev; prev = curr) {
 		curr = curr->next;
