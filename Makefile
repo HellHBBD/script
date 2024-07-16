@@ -11,7 +11,7 @@ SRCDIR = src
 INCDIR = include
 TESTDIR = test
 
-TARGETS = show-wifi-key submit score-histogram nameList
+TARGETS = show-wifi-key submit score-histogram nameList mklib
 
 # default target
 all: $(foreach T, $(TARGETS), $(BINDIR)/$(T))
@@ -27,6 +27,9 @@ $(BINDIR)/score-histogram: $(OBJDIR)/score-histogram.o $(OBJDIR)/readLine.o
 	$(CC) $(CFLAGS) -o $@ $^
 
 $(BINDIR)/nameList: $(OBJDIR)/nameList.o $(OBJDIR)/readLine.o $(OBJDIR)/store.o
+	$(CC) $(CFLAGS) -o $@ $^
+
+$(BINDIR)/mklib: $(OBJDIR)/mklib.o
 	$(CC) $(CFLAGS) -o $@ $^
 
 # compiling source
