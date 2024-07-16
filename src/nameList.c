@@ -16,7 +16,79 @@ struct List {
 };
 
 struct List *list = NULL;
-char *filename = "/home/hellhbbd/.local/data/nameList/data.bin";
+char *filename = NULL;
+
+void init();
+void deinit();
+void add(char *);
+void pop();
+void delete(unsigned);
+void print();
+void read();
+void write();
+
+#define CLEAN_BUFFER()                          \
+	{                                       \
+		char c;                         \
+		while ((c = getchar()) != '\n') \
+			;                       \
+	}
+
+int main()
+{
+	init();
+
+	while (1) {
+		// print data
+		print();
+		printf("\n\n[0] = exit\n[1] = add name\n[2] = delete name\n\n(0/1/2): ");
+		unsigned option = 0;
+		scanf("%d", &option);
+		CLEAN_BUFFER();
+		char *line = NULL;
+		switch (option) {
+		case 0:
+			deinit();
+			return 0;
+		case 1:
+			// add
+			line = readLine();
+			add(line);
+			free(line);
+			line = NULL;
+			break;
+		case 2:
+			// delete
+			scanf("%d", &option);
+			CLEAN_BUFFER();
+			delete (option);
+			break;
+		default:
+			puts("invalid option");
+		}
+	}
+}
+
+void init()
+{
+	char *home = getenv("HOME");
+	asprintf(&filename, "%s/.local/data/nameList/data.bin", home);
+	list = malloc(sizeof(struct List));
+	list->head = NULL;
+	list->count = 0;
+
+	// read data
+	read();
+}
+
+void deinit()
+{
+	// write data
+	write();
+	free(filename);
+	free(list);
+	list = NULL;
+}
 
 void add(char *name)
 {
@@ -118,54 +190,4 @@ void write()
 		prev = NULL;
 	}
 	fclose(file);
-}
-
-#define CLEAN_BUFFER()                          \
-	{                                       \
-		char c;                         \
-		while ((c = getchar()) != '\n') \
-			;                       \
-	}
-
-int main()
-{
-	list = malloc(sizeof(struct List));
-	list->head = NULL;
-	list->count = 0;
-
-	// read data
-	read();
-
-	while (1) {
-		// print data
-		print();
-		printf("\n\n[0] = exit\n[1] = add name\n[2] = delete name\n\n(0/1/2): ");
-		unsigned option = 0;
-		scanf("%d", &option);
-		CLEAN_BUFFER();
-		char *line = NULL;
-		switch (option) {
-		case 0:
-			// write data
-			write();
-			free(list);
-			list = NULL;
-			return 0;
-		case 1:
-			// add
-			line = readLine();
-			add(line);
-			free(line);
-			line = NULL;
-			break;
-		case 2:
-			// delete
-			scanf("%d", &option);
-			CLEAN_BUFFER();
-			delete (option);
-			break;
-		default:
-			puts("invalid option");
-		}
-	}
 }
